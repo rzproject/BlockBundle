@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <parameters>
+        <parameter key="rz_block.form.type.block.class">Rz\BlockBundle\Form\Type\ServiceListType</parameter>
+    </parameters>
+
+    <services>
+        <service id="rz_block.form.type.block" class="%rz_block.form.type.block.class%">
+            <tag name="form.type_extension" alias="sonata_block_service_choice" />
+            <argument type="service" id="sonata.block.manager" />
+            <argument />
+        </service>
+    </services>
+
+</container>
