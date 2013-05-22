@@ -16,6 +16,9 @@
     "require": {
         "rmzamora/block-bundle": "2.2.*@dev"
     },
+    "require-dev": {
+        "rz/admin-bundle": "2.2.*@dev"
+    },
     "autoload": {
         "psr-0": { "Rz\\BlockBundle": "" }
     },
