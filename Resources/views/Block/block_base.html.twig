@@ -1,9 +1,11 @@
-<div id="cms-block-{{ block.id }}" class="cms-block cms-block-element"
+<div id="cms-block-{{ block.id }}" class="cms-block cms-block-element row-fluid"
         {% if sonata_page.isEditor and block.page is defined %}
             data-id="{{ block.id }}"
             data-name="{{ block.name }}"
             data-role="{% block block_role %}block{% endblock %}"
             data-page-id="{{ block.page.id }}"
+            data-block-type="{{ block.type }}"
+            data-block-has-parent="{{ block.hasParent() }}"
         {% endif %}
         >
     {% block block %}EMPTY CONTENT{% endblock %}
