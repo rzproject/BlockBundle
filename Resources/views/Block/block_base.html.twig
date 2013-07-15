@@ -1,5 +1,5 @@
 <div id="cms-block-{{ block.id }}" class="cms-block cms-block-element row-fluid"
-        {% if sonata_page.isEditor and block.page is defined %}
+        {% if sonata_page is defined and sonata_page.isEditor and block.page is defined %}
             data-id="{{ block.id }}"
             data-name="{{ block.name }}"
             data-role="{% block block_role %}block{% endblock %}"
