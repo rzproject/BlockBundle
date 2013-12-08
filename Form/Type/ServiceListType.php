@@ -43,6 +43,6 @@ class ServiceListType extends AbstractTypeExtension
     {
 
         parent::setDefaultOptions($resolver);
-        $resolver->setDefaults(array('selectpicker_enabled' => true));
+        $resolver->setDefaults(array('select2' => true));
     }
 }
