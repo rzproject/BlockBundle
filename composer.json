@@ -21,7 +21,6 @@
     "autoload": {
         "psr-4": { "Rz\\BlockBundle\\": "" }
     },
-    "target-dir": "Rz/BlockBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
