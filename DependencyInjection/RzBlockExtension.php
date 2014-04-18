@@ -34,5 +34,6 @@ class RzBlockExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('form_type.xml');
         $loader->load('block.xml');
+        $loader->load('core.xml');
     }
 }
