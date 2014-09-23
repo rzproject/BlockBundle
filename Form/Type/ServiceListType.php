@@ -35,14 +35,4 @@ class ServiceListType extends AbstractTypeExtension
             $view->vars['attr']['class'] = sprintf("%s rz-block-service-choice", preg_replace('/span[1-9]/', 'span12', $view->vars['attr']['class'] ));
         }
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-
-        parent::setDefaultOptions($resolver);
-        $resolver->setDefaults(array('select2' => true));
-    }
 }
