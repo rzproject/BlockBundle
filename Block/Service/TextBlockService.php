@@ -26,7 +26,7 @@ class TextBlockService extends BaseBlockService
     {
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => array(
-                array('content', 'rz_ckeditor', array('required'=>false)),
+                array('content', 'ckeditor', array('required'=>false)),
             )
         ));
     }
