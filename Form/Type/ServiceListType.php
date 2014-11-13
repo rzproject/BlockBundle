@@ -16,9 +16,20 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
 
 class ServiceListType extends AbstractTypeExtension
 {
+
+    protected $manager;
+
+    /**
+     * @param BlockServiceManagerInterface $manager
+     */
+    public function __construct(BlockServiceManagerInterface $manager)
+    {
+        $this->manager  = $manager;
+    }
 
     /**
      * {@inheritdoc}
@@ -34,5 +45,46 @@ class ServiceListType extends AbstractTypeExtension
         if ($options['selectpicker_enabled']) {
             $view->vars['attr']['class'] = sprintf("%s rz-block-service-choice", preg_replace('/span[1-9]/', 'span12', $view->vars['attr']['class'] ));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $manager = $this->manager;
+
+        $resolver->setRequired(array(
+            'context',
+        ));
+
+        $resolver->setDefaults(array(
+            'multiple'          => false,
+            'expanded'          => false,
+            'choices'           => function (Options $options, $previousValue) use ($manager) {
+                $types = array();
+                foreach ($manager->getServicesByContext($options['context'], $options['include_containers']) as $code => $service) {
+                    $types[$code] = sprintf('%s - %s', $service->getName(), $code);
+                }
+
+                return $types;
+            },
+            'preferred_choices'  => array(),
+            'empty_data'         => function (Options $options) {
+                $multiple = isset($options['multiple']) && $options['multiple'];
+                $expanded = isset($options['expanded']) && $options['expanded'];
+
+                return $multiple || $expanded ? array() : '';
+            },
+            'empty_value'        => function (Options $options, $previousValue) {
+                $multiple = isset($options['multiple']) && $options['multiple'];
+                $expanded = isset($options['expanded']) && $options['expanded'];
+
+                return $multiple || $expanded || !isset($previousValue) ? null : '';
+            },
+            'error_bubbling'     => false,
+            'include_containers' => false,
+            'select2' => true,
+        ));
     }
 }
