@@ -22,6 +22,7 @@ class OverrideServiceCompilerPass implements CompilerPassInterface
         //override Text Block from sonata
         $definition = $container->getDefinition('sonata.block.service.text');
         $definition->setClass($container->getParameter('rz_block.service.text.class'));
+        $definition->addMethodCall('setTemplateConfig', array(new Reference('rz_block.config_block_template_provider_manager')));
 //        $definition->addArgument(new Reference('security.context'));
 //        $container->setDefinition('sonata.block.service.text', $definition);
 

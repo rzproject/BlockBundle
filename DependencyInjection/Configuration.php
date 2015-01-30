@@ -13,6 +13,7 @@ namespace Rz\BlockBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -28,10 +29,24 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('rz_block');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $this->addBundleSettings($rootNode);
         return $treeBuilder;
+    }
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     */
+    private function addBundleSettings(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('block_template_configs')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->useAttributeAsKey('name')
+                        ->prototype('variable')->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }

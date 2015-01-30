@@ -35,5 +35,21 @@ class RzBlockExtension extends Extension
         $loader->load('form_type.xml');
         $loader->load('block.xml');
         $loader->load('core.xml');
+        $loader->load('template_provider.xml');
+        $this->registerSearchSettings($config, $container);
+    }
+
+    /**
+     * Registers ckeditor widget.
+     *
+     */
+    protected function registerSearchSettings(array $config, ContainerBuilder $container)
+    {
+        if (!empty($config['block_template_configs'])) {
+            $definition = $container->getDefinition('rz_block.config_block_template_provider_manager');
+            foreach ($config['block_template_configs'] as $name => $configuration) {
+                    $definition->addMethodCall('setConfig', array($name, $configuration));
+            }
+        }
     }
 }

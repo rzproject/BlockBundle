@@ -1,6 +1,6 @@
 <?php
 
-namespace Rz\BlockBundle\Block;
+namespace Rz\BlockBundle\Block\Service;
 
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Response;
