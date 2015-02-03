@@ -18,6 +18,9 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use Rz\BlockBundle\Block\BlockTemplateProviderInterface;
 use Rz\BlockBundle\Model\ConfigManagerInterface;
 
+use Sonata\BlockBundle\Block\BlockContextInterface;
+use Symfony\Component\HttpFoundation\Response;
+
 class TextBlockService extends BaseBlockService implements BlockTemplateProviderInterface
 {
     protected $templateConfig;
@@ -28,8 +31,8 @@ class TextBlockService extends BaseBlockService implements BlockTemplateProvider
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
         $keys = array();
-        if($this->templateConfig->hasConfig($this->getName())) {
-            $templateChoices = $this->templateConfig->getBlockTemplateChoices($this->templateConfig->getConfig($this->getName()));
+        if($this->templateConfig->hasConfig($block->getType())) {
+            $templateChoices = $this->templateConfig->getBlockTemplateChoices($this->templateConfig->getConfig($block->getType()));
             if ($templateChoices) {
                 $keys[] = array('template', 'choice', array('choices'=>$templateChoices, 'attr'=>array('class'=>'span8')));
             }
@@ -44,5 +47,16 @@ class TextBlockService extends BaseBlockService implements BlockTemplateProvider
 
     public function getTemplateConfig(){
         return $this->templateConfig;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    {
+        return $this->renderResponse($this->getTemplating()->exists($blockContext->getTemplate()) ? $blockContext->getTemplate() : 'RzBlockBundle:Block:block_core_text.html.twig', array(
+            'block'     => $blockContext->getBlock(),
+            'settings'  => $blockContext->getSettings()
+        ), $response);
     }
 }

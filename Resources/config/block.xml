@@ -6,6 +6,7 @@
     <parameters>
         <parameter key="rz_block.service.text.class">Rz\BlockBundle\Block\Service\TextBlockService</parameter>
         <parameter key="rz_block.service.rss.class">Rz\BlockBundle\Block\Service\RssBlockService</parameter>
+        <parameter key="rz_block.service.menu.class">Rz\BlockBundle\Block\Service\MenuBlockService</parameter>
 
     </parameters>
 </container>
