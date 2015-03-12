@@ -4,7 +4,7 @@ namespace Rz\BlockBundle\Block;
 
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Rz\BlockBundle\Model\ConfigManagerInterface;
 
 interface BlockTemplateProviderInterface

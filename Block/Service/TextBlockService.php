@@ -14,7 +14,7 @@ namespace Rz\BlockBundle\Block\Service;
 use Sonata\BlockBundle\Block\Service\TextBlockService as BaseBlockService;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use Sonata\CoreBundle\Validator\ErrorElement;
 use Rz\BlockBundle\Block\BlockTemplateProviderInterface;
 use Rz\BlockBundle\Model\ConfigManagerInterface;
 
