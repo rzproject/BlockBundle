@@ -19,17 +19,25 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Rz\BlockBundle\Block\BlockTemplateProviderInterface;
 use Rz\BlockBundle\Model\ConfigManagerInterface;
 
-class RssBlockService extends BaseBlockService implements BlockTemplateProviderInterface
+class RssBlockService extends BaseBlockService
 {
 
-    protected $templateConfig;
+    protected $templates;
 
-    public function setTemplateConfig(ConfigManagerInterface $templateConfig){
-        $this->templateConfig = $templateConfig;
+    /**
+     * @return mixed
+     */
+    public function getTemplates()
+    {
+        return $this->templates;
     }
 
-    public function getTemplateConfig(){
-        return $this->templateConfig;
+    /**
+     * @param mixed $templates
+     */
+    public function setTemplates($templates)
+    {
+        $this->templates = $templates;
     }
 
     /**
@@ -57,12 +65,11 @@ class RssBlockService extends BaseBlockService implements BlockTemplateProviderI
                 'choices' => array(
                     'public' => 'public',
                     'admin'  => 'admin'
-                ),
-                'attr'=>array('class'=>'span8')
+                )
             )),
         );
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
-            'keys' => array_merge($this->getTemplateChoices($block), $keys)
+            'keys' => array_merge($this->getTemplateChoices(), $keys)
         ));
     }
 
@@ -83,15 +90,11 @@ class RssBlockService extends BaseBlockService implements BlockTemplateProviderI
             ->end();
     }
 
-    protected function getTemplateChoices($block) {
+    protected function getTemplateChoices() {
         $keys = array();
-        if($this->templateConfig->hasConfig($block->getType())) {
-            $templateChoices = $this->templateConfig->getBlockTemplateChoices($this->templateConfig->getConfig($block->getType()));
-            if ($templateChoices) {
-                $keys[] = array('template', 'choice', array('choices'=>$templateChoices, 'attr'=>array('class'=>'span8')));
-            }
+        if($this->getTemplates()) {
+            $keys[] = array('template', 'choice', array('choices'=>$this->getTemplates()));
         }
-
         return $keys;
 
     }

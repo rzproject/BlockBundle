@@ -24,17 +24,25 @@ use Rz\BlockBundle\Model\ConfigManagerInterface;
  *
  * @author Hugo Briand <briand@ekino.com>
  */
-class MenuBlockService extends BaseMenuBlockService implements BlockTemplateProviderInterface
+class MenuBlockService extends BaseMenuBlockService
 {
 
-    protected $templateConfig;
+    protected $templates;
 
-    public function setTemplateConfig(ConfigManagerInterface $templateConfig){
-        $this->templateConfig = $templateConfig;
+    /**
+     * @return mixed
+     */
+    public function getTemplates()
+    {
+        return $this->templates;
     }
 
-    public function getTemplateConfig(){
-        return $this->templateConfig;
+    /**
+     * @param mixed $templates
+     */
+    public function setTemplates($templates)
+    {
+        $this->templates = $templates;
     }
 
     /**
@@ -62,7 +70,9 @@ class MenuBlockService extends BaseMenuBlockService implements BlockTemplateProv
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
 
-        $keys = array_merge($this->getTemplateChoices($block), $this->getFormSettingsKeys());
+        $keys = array_merge($this->getTemplateChoices(), $this->getFormSettingsKeys());
+
+
         $formMapper->add('settings', 'sonata_type_immutable_array', array(
             'keys' => $keys
         ));
@@ -103,8 +113,8 @@ class MenuBlockService extends BaseMenuBlockService implements BlockTemplateProv
     {
         return array(
             array('title', 'text', array('required' => false, 'attr'=>array('class'=>'span8'))),
-            array('cache_policy', 'choice', array('choices' => array('public', 'private'), 'attr'=>array('class'=>'span8'))),
-            array('menu_name', 'choice', array('choices' => $this->menus, 'required' => false, 'attr'=>array('class'=>'span8'))),
+            array('cache_policy', 'choice', array('choices' => array('public', 'private'))),
+            array('menu_name', 'choice', array('choices' => $this->menus, 'required' => true)),
             array('safe_labels', 'checkbox', array('required' => false)),
             array('current_class', 'text', array('required' => false, 'attr'=>array('class'=>'span6'))),
             array('first_class', 'text', array('required' => false, 'attr'=>array('class'=>'span6'))),
@@ -114,16 +124,11 @@ class MenuBlockService extends BaseMenuBlockService implements BlockTemplateProv
         );
     }
 
-    protected function getTemplateChoices($block) {
+    protected function getTemplateChoices() {
         $keys = array();
-        if($this->templateConfig->hasConfig($block->getType())) {
-            $templateChoices = $this->templateConfig->getBlockTemplateChoices($this->templateConfig->getConfig($block->getType()));
-            if ($templateChoices) {
-                $keys[] = array('template', 'choice', array('choices'=>$templateChoices, 'attr'=>array('class'=>'span8')));
-            }
+        if($this->getTemplates()) {
+            $keys[] = array('template', 'choice', array('choices'=>$this->getTemplates()));
         }
-
         return $keys;
-
     }
 }
