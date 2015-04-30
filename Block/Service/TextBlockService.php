@@ -59,4 +59,12 @@ class TextBlockService extends BaseBlockService
             'settings'  => $blockContext->getSettings()
         ), $response);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'Text - (Plain Text Core)';
+    }
 }
