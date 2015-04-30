@@ -36,6 +36,7 @@ class RzBlockExtension extends Extension
         $loader->load('core.xml');
         $loader->load('block.xml');
         $this->configureBlocks($config['blocks'], $container);
+        $this->configureClassesToCompile();
     }
 
     /**
@@ -95,5 +96,19 @@ class RzBlockExtension extends Extension
             }
             $container->setParameter('rz_block.block.service.rss.templates', $templates);
         }
+    }
+
+    /**
+     * Add class to compile
+     */
+    public function configureClassesToCompile()
+    {
+        $this->addClassesToCompile(array(
+            "Rz\\BlockBundle\\Block\\Service\\BaseBlockService",
+            "Rz\\BlockBundle\\Block\\Service\\RssBlockService",
+            "Rz\\BlockBundle\\Block\\Service\\MenuBlockService",
+            "Rz\\BlockBundle\\Block\\Service\\TextBlockService",
+            "Rz\\BlockBundle\\Form\\Type\\ServiceListType"
+        ));
     }
 }
