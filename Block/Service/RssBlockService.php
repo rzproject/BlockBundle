@@ -98,4 +98,12 @@ class RssBlockService extends BaseBlockService
         return $keys;
 
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'RSS Reader';
+    }
 }
