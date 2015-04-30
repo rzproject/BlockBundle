@@ -3,6 +3,6 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="rz_block.emplating.helper.class">Rz\BlockBundle\Templating\Helper\BlockHelper</parameter>
+        <parameter key="rz_block.templating.helper.class">Rz\BlockBundle\Templating\Helper\BlockHelper</parameter>
     </parameters>
 </container>

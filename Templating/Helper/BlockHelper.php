@@ -122,6 +122,9 @@ class BlockHelper extends BaseBlockHelper
      */
     public function includeStylesheets($media, $basePath = '')
     {
+        if(0 === count($this->assets['css'])) {
+            return "";
+        }
 
         $html = sprintf("<style type='text/css' media='%s'>", $media);
 

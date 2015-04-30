@@ -14,40 +14,39 @@ namespace Rz\BlockBundle\Block\Service;
 use Sonata\BlockBundle\Block\Service\TextBlockService as BaseBlockService;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Sonata\CoreBundle\Validator\ErrorElement;
-use Rz\BlockBundle\Block\BlockTemplateProviderInterface;
-use Rz\BlockBundle\Model\ConfigManagerInterface;
-
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class TextBlockService extends BaseBlockService implements BlockTemplateProviderInterface
+class TextBlockService extends BaseBlockService
 {
-    protected $templateConfig;
+    protected $templates;
 
     /**
      * {@inheritdoc}
      */
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
-        $keys = array();
-
-        if($this->templateConfig && $this->templateConfig->hasConfig($block->getType())) {
-            $templateChoices = $this->templateConfig->getBlockTemplateChoices($this->templateConfig->getConfig($block->getType()));
-            if ($templateChoices) {
-                $keys[] = array('template', 'choice', array('choices'=>$templateChoices, 'attr'=>array('class'=>'span8')));
-            }
+        if($this->getTemplates()) {
+            $keys[] = array('template', 'choice', array('choices'=>$this->getTemplates()));
         }
         $keys[] = array('content', 'ckeditor', array('required'=>false, 'config_name'=>'minimal_editor'));
         $formMapper->add('settings', 'sonata_type_immutable_array', array('keys' =>$keys));
     }
 
-    public function setTemplateConfig(ConfigManagerInterface $templateConfig){
-        $this->templateConfig = $templateConfig;
+    /**
+     * @return mixed
+     */
+    public function getTemplates()
+    {
+        return $this->templates;
     }
 
-    public function getTemplateConfig(){
-        return $this->templateConfig;
+    /**
+     * @param mixed $templates
+     */
+    public function setTemplates($templates = array())
+    {
+        $this->templates = $templates;
     }
 
     /**

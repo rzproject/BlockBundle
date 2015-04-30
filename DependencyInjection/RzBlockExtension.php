@@ -33,23 +33,67 @@ class RzBlockExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('form_type.xml');
-        $loader->load('block.xml');
         $loader->load('core.xml');
-        $loader->load('template_provider.xml');
-        $this->registerSearchSettings($config, $container);
+        $loader->load('block.xml');
+        $this->configureBlocks($config['blocks'], $container);
     }
 
     /**
-     * Registers ckeditor widget.
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      *
+     * @return void
      */
-    protected function registerSearchSettings(array $config, ContainerBuilder $container)
+    public function configureBlocks($config, ContainerBuilder $container)
     {
-        if (!empty($config['block_template_configs'])) {
-            $definition = $container->getDefinition('rz_block.config_block_template_provider_manager');
-            foreach ($config['block_template_configs'] as $name => $configuration) {
-                    $definition->addMethodCall('setConfig', array($name, $configuration));
+        ####################################
+        # sonata.block.service.text
+        ####################################
+
+        # class
+        $container->setParameter('rz_block.block.service.text.class', $config['text']['class']);
+
+        # template
+        if($temp = $config['text']['templates']) {
+            $templates = array();
+            foreach ($temp as $template) {
+                $templates[$template['path']] = $template['name'];
             }
+            $container->setParameter('rz_block.block.service.text.templates', $templates);
+        }
+
+
+        ####################################
+        # sonata.block.service.menu
+        ####################################
+
+        # class
+        $container->setParameter('rz_block.block.service.menu.class', $config['menu']['class']);
+
+        # template
+        if($temp = $config['menu']['templates']) {
+            $templates = array();
+            foreach ($temp as $template) {
+                $templates[$template['path']] = $template['name'];
+            }
+            $container->setParameter('rz_block.block.service.menu.templates', $templates);
+        }
+
+
+        ####################################
+        # sonata.block.service.rss
+        ####################################
+
+        # class
+        $container->setParameter('rz_blockblock.service.rss.class', $config['rss']['class']);
+
+        # template
+        if($temp = $config['rss']['templates']) {
+            $templates = array();
+            foreach ($temp as $template) {
+                $templates[$template['path']] = $template['name'];
+            }
+            $container->setParameter('rz_block.block.service.rss.templates', $templates);
         }
     }
 }
