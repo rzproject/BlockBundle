@@ -31,7 +31,8 @@ class TextBlockService extends BaseBlockService implements BlockTemplateProvider
     public function buildEditForm(FormMapper $formMapper, BlockInterface $block)
     {
         $keys = array();
-        if($this->templateConfig->hasConfig($block->getType())) {
+
+        if($this->templateConfig && $this->templateConfig->hasConfig($block->getType())) {
             $templateChoices = $this->templateConfig->getBlockTemplateChoices($this->templateConfig->getConfig($block->getType()));
             if ($templateChoices) {
                 $keys[] = array('template', 'choice', array('choices'=>$templateChoices, 'attr'=>array('class'=>'span8')));
