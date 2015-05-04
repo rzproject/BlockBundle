@@ -5,5 +5,5 @@ Symfony2 Bundle - An extension of [SonataBlockBundle](https://github.com/sonata-
 
 Uses a forked version of SonataBlockBundle
 
-**STABLE VERSION**
+**DEPRECATED**
 
