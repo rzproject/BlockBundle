@@ -235,6 +235,7 @@ class BlockHelper extends BaseBlockHelper
      */
     public function renderEvent($name, array $options = array())
     {
+
         $eventName = sprintf('sonata.block.event.%s', $name);
 
         $event = $this->eventDispatcher->dispatch($eventName, new BlockEvent($options));
@@ -250,11 +251,12 @@ class BlockHelper extends BaseBlockHelper
                 'template_code' => $name,
                 'event_name'    => $eventName,
                 'blocks'        => $this->getEventBlocks($event),
-                'listeners'     => $this->getEventListeners($event),
+                'listeners'     => $this->getEventListeners($eventName),
             );
         }
 
         return $content;
+
     }
 
     /**
