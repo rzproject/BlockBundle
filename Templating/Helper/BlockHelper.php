@@ -274,15 +274,15 @@ class BlockHelper extends BaseBlockHelper
     }
 
     /**
-     * @param BlockEvent $event
+     * @param string $eventName
      *
      * @return array
      */
-    protected function getEventListeners(BlockEvent $event)
+    protected function getEventListeners($eventName)
     {
         $results = array();
 
-        foreach ($this->eventDispatcher->getListeners($event->getName()) as $listener) {
+        foreach ($this->eventDispatcher->getListeners($eventName) as $listener) {
             if (is_object($listener[0])) {
                 $results[] = get_class($listener[0]);
             } else if (is_string($listener[0])) {
