@@ -11,13 +11,13 @@
 
 namespace Rz\BlockBundle\Block\Service;
 
-use Sonata\BlockBundle\Block\Service\TextBlockService as BaseBlockService;
+use Sonata\BlockBundle\Block\Service\TextBlockService as BaseTextBlockService;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class TextBlockService extends BaseBlockService
+class TextBlockService extends BaseTextBlockService
 {
     protected $templates;
 

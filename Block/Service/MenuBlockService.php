@@ -2,20 +2,14 @@
 
 namespace Rz\BlockBundle\Block\Service;
 
-use Knp\Menu\ItemInterface;
-use Knp\Menu\Provider\MenuProviderInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Validator\ErrorElement;
-use Sonata\BlockBundle\Block\BaseBlockService;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Sonata\BlockBundle\Block\Service\MenuBlockService as BaseMenuBlockService;
 
 use Rz\BlockBundle\Block\BlockTemplateProviderInterface;
-use Rz\BlockBundle\Model\ConfigManagerInterface;
 
 /**
  * Class MenuBlockService

@@ -11,15 +11,14 @@
 
 namespace Rz\BlockBundle\Block\Service;
 
-use Sonata\BlockBundle\Block\Service\RssBlockService as BaseBlockService;
+use Sonata\BlockBundle\Block\Service\RssBlockService as BaseRssBlockService;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Rz\BlockBundle\Block\BlockTemplateProviderInterface;
-use Rz\BlockBundle\Model\ConfigManagerInterface;
 
-class RssBlockService extends BaseBlockService
+class RssBlockService extends BaseRssBlockService
 {
 
     protected $templates;
