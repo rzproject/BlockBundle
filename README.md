@@ -5,7 +5,7 @@ Symfony2 Bundle - An extension of [SonataBlockBundle](https://github.com/sonata-
 
 Uses a forked version of SonataBlockBundle
 
-**STABLE VERSION**
+**DEVELOPMENT VERSION**
 
 Back to: [rzproject](http://rzproject.github.io)
 
