@@ -122,6 +122,9 @@ class BlockHelper extends BaseBlockHelper
      */
     public function includeStylesheets($media, $basePath = '')
     {
+        if(0 === count($this->assets['css'])) {
+            return "";
+        }
 
         $html = sprintf("<style type='text/css' media='%s'>", $media);
 
@@ -232,6 +235,7 @@ class BlockHelper extends BaseBlockHelper
      */
     public function renderEvent($name, array $options = array())
     {
+
         $eventName = sprintf('sonata.block.event.%s', $name);
 
         $event = $this->eventDispatcher->dispatch($eventName, new BlockEvent($options));
@@ -247,11 +251,12 @@ class BlockHelper extends BaseBlockHelper
                 'template_code' => $name,
                 'event_name'    => $eventName,
                 'blocks'        => $this->getEventBlocks($event),
-                'listeners'     => $this->getEventListeners($event),
+                'listeners'     => $this->getEventListeners($eventName),
             );
         }
 
         return $content;
+
     }
 
     /**
@@ -271,15 +276,15 @@ class BlockHelper extends BaseBlockHelper
     }
 
     /**
-     * @param BlockEvent $event
+     * @param string $eventName
      *
      * @return array
      */
-    protected function getEventListeners(BlockEvent $event)
+    protected function getEventListeners($eventName)
     {
         $results = array();
 
-        foreach ($this->eventDispatcher->getListeners($event->getName()) as $listener) {
+        foreach ($this->eventDispatcher->getListeners($eventName) as $listener) {
             if (is_object($listener[0])) {
                 $results[] = get_class($listener[0]);
             } else if (is_string($listener[0])) {

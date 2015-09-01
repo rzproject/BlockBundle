@@ -14,28 +14,45 @@ namespace Rz\BlockBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Sonata\AdminBundle\Admin\BaseFieldDescription;
 
 class OverrideServiceCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        //override Text Block from sonata
+        #################################
+        # Override Text Block
+        #################################
         $definition = $container->getDefinition('sonata.block.service.text');
-        $definition->setClass($container->getParameter('rz_block.service.text.class'));
-//        $definition->addArgument(new Reference('security.context'));
-//        $container->setDefinition('sonata.block.service.text', $definition);
+        $definition->setClass($container->getParameter('rz_block.block.service.text.class'));
+        if($container->hasParameter('rz_block.block.service.text.templates')) {
+            $definition->addMethodCall('setTemplates', array($container->getParameter('rz_block.block.service.text.templates')));
+        }
 
-        //override RSS Block from sonata
+        #################################
+        # Override Menu Block
+        #################################
+        $definition = $container->getDefinition('sonata.block.service.menu');
+        $definition->setClass($container->getParameter('rz_block.block.service.menu.class'));
+        if($container->hasParameter('rz_block.block.service.menu.templates')) {
+            $definition->addMethodCall('setTemplates', array($container->getParameter('rz_block.block.service.menu.templates')));
+        }
+
+        #################################
+        # Override RSS Block
+        #################################
         $definition = $container->getDefinition('sonata.block.service.rss');
-        $definition->setClass($container->getParameter('rz_block.service.rss.class'));
-//        $definition->addArgument(new Reference('security.context'));
-//        $container->setDefinition('sonata.block.service.rss', $definition);
+        $definition->setClass($container->getParameter('rz_block.block.service.rss.class'));
+        if($container->hasParameter('rz_block.block.service.rss.templates')) {
+            $definition->addMethodCall('setTemplates', array($container->getParameter('rz_block.block.service.rss.templates')));
+        }
 
-        //override sonaa_block
+        #################################
+        # Override sonata_block
+        #################################
         $definition = $container->getDefinition('sonata.block.templating.helper');
-        $definition->setClass($container->getParameter('rz_block.emplating.helper.class'));
+        $definition->setClass($container->getParameter('rz_block.templating.helper.class'));
         $definition->addArgument(new Reference('security.context'));
         $container->setDefinition('sonata.block.templating.helper', $definition);
-
     }
 }
