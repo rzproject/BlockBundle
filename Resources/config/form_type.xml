@@ -6,14 +6,14 @@
 
 
     <parameters>
-        <parameter key="rz_block.form.type.block.class">Rz\BlockBundle\Form\Type\ServiceListType</parameter>
+        <parameter key="rz.block.form.type.block.class">Rz\BlockBundle\Form\Type\ServiceListType</parameter>
     </parameters>
 
     <services>
-        <service id="rz_block.form.type.block" class="%rz_block.form.type.block.class%">
+        <service id="rz.block.form.type.block" class="%rz.block.form.type.block.class%">
             <tag name="form.type_extension" alias="sonata_block_service_choice" />
             <argument type="service" id="sonata.block.manager" />
-            <argument />
+            <argument type="service" id="translator" />
         </service>
     </services>
 

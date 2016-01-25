@@ -18,18 +18,21 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Sonata\BlockBundle\Block\BlockServiceManagerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class ServiceListType extends AbstractTypeExtension
 {
 
-    protected $manager;
+    protected $translator;
+
 
     /**
      * @param BlockServiceManagerInterface $manager
      */
-    public function __construct(BlockServiceManagerInterface $manager)
+    public function __construct(BlockServiceManagerInterface $manager, TranslatorInterface $translator)
     {
         $this->manager  = $manager;
+        $this->translator = $translator;
     }
 
     /**
@@ -38,24 +41,6 @@ class ServiceListType extends AbstractTypeExtension
     public function getExtendedType()
     {
         return 'sonata_block_service_choice';
-    }
-
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        parent::buildView($view, $form, $options);
-        if ($options['selectpicker_enabled']) {
-            $view->vars['attr']['class'] = sprintf("%s rz-block-service-choice", preg_replace('/span[1-9]/', 'span12', $view->vars['attr']['class'] ));
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @todo Remove it when bumping requirements to SF 2.7+
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
     }
 
     /**
@@ -70,12 +55,14 @@ class ServiceListType extends AbstractTypeExtension
         ));
 
         $resolver->setDefaults(array(
-            'multiple'          => false,
-            'expanded'          => false,
-            'choices'           => function (Options $options, $previousValue) use ($manager) {
+            'multiple'           => false,
+            'expanded'           => false,
+            'choices'            => function (Options $options, $previousValue) use ($manager) {
                 $types = array();
                 foreach ($manager->getServicesByContext($options['context'], $options['include_containers']) as $code => $service) {
-                    $types[$code] = sprintf('%s - %s', $service->getName(), $code);
+                    // TODO: from OLD version provide pull request
+                    //$types[$code] = sprintf('%s - %s', $service->getName(), $code);
+                    $types[$code] = sprintf('%s - %s', $this->translator->trans($service->getBlockMetadata()->getTitle(), array(),  $service->getBlockMetadata()->getDomain()), $code);
                 }
 
                 return $types;
@@ -95,7 +82,6 @@ class ServiceListType extends AbstractTypeExtension
             },
             'error_bubbling'     => false,
             'include_containers' => false,
-            'select2' => true,
         ));
     }
 }
