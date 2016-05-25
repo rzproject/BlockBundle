@@ -1,0 +1,7 @@
+{% extends sonata_block.templates.block_base %}
+
+{% sonata_template_box 'This is a sample template. Feel free to override it.' %}
+
+{% block block %}
+    {{ settings.content|raw }}
+{% endblock %}
