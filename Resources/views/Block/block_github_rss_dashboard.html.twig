@@ -1,0 +1,35 @@
+{% extends "SonataBlockBundle:Block:block_core_rss.html.twig" %}
+
+{% block block %}
+<div class="box box-warning">
+    <div class="box-header with-border box-dashboard">
+        <div class="user-block">
+		<span class="username">
+			<a href="javascript:void(0)">{{ settings.title | trans({}, 'SonataBlockBundle') }}</a>
+		</span>
+	        <span class="description">{{ "now"|date("m/d/Y h:i:s") }}</span>
+        </div>
+    </div>
+    <div class="box-body block-github-rss">
+        {% set count = 0  %}
+        {% for feed in feeds  %}
+            {% if  count <= settings.number %}
+				{% if feed.link is defined %}
+					{% set count = count +1  %}
+					<div class="item">
+						{{ feed.content|raw }}
+					</div>
+	            {% endif %}
+            {% endif %}
+        {% else %}
+            <p class="list-group-item">No feeds available.</p>
+        {% endfor %}
+    </div>
+</div>
+<script>
+	{% spaceless %}
+	var github_rss_block = new GithubRssBlock({
+		settings: {id: 'block-github-rss', base_url: '{{ settings.base_url}}' } });
+	{% endspaceless %}
+</script>
+{% endblock %}
