@@ -4,6 +4,7 @@ namespace Rz\BlockBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -18,12 +19,29 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('rz_block');
+        $node = $treeBuilder->root('rz_block');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $this->addBlock($node);
 
         return $treeBuilder;
+    }
+
+    private function addBlock(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('github_rss')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->arrayNode('block')
+                                ->addDefaultsIfNotSet()
+                                ->children()
+                                    ->scalarNode('class')->defaultValue('Rz\\BlockBundle\\Block\\GtihubRssBlockService')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }
